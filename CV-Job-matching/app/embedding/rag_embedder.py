@@ -116,6 +116,36 @@ class RAGEmbedder:
         
         return relevant_chunks, scores, jd_embedding
     
+    def retrieve_for_jd_with_embedding(
+        self,
+        cv_data: Dict,
+        jd_embedding: np.ndarray,
+        top_k: int = 5
+    ) -> Tuple[List[str], List[float]]:
+        """
+        Retrieve top K CV chunks using pre-computed JD embedding.
+        Faster when processing multiple CVs with the same JD.
+        
+        Args:
+            cv_data: CV data from embed_cv()
+            jd_embedding: Pre-computed JD embedding
+            top_k: Number of chunks to retrieve
+            
+        Returns:
+            Tuple of (relevant chunks, scores)
+        """
+        from app.utils.rag import retrieve_relevant_chunks
+        
+        # Retrieve relevant chunks using cached JD embedding
+        relevant_chunks, scores = retrieve_relevant_chunks(
+            cv_data["chunks"],
+            cv_data["embeddings"],
+            jd_embedding,
+            top_k=top_k
+        )
+        
+        return relevant_chunks, scores
+    
     def get_similarity_score(
         self,
         cv_embeddings: List[np.ndarray],

@@ -65,49 +65,41 @@ def score_cv_rag(
     Returns:
         Scoring result as JSON string
     """
-    # Format relevant CV information
+    # Format relevant CV information (limit context)
     cv_context = "\n\n".join([
-        f"[Relevant CV Section {i+1}] (relevance: {score:.2f})\n{chunk}"
-        for i, (chunk, score) in enumerate(zip(relevant_cv_chunks, chunk_scores))
+        f"[CV Section {i+1}] (score: {score:.2f})\n{chunk[:300]}"  # Limit chunk size
+        for i, (chunk, score) in enumerate(zip(relevant_cv_chunks[:3], chunk_scores[:3]))  # Top 3 only
     ])
     
-    # Format JD context (use chunks if available, otherwise full JD)
+    # Format JD context (use chunks if available, otherwise truncate)
     if jd_chunks:
-        jd_context = "\n\n".join([
-            f"[Requirement {i+1}]\n{chunk}"
-            for i, chunk in enumerate(jd_chunks)
-        ])
+        jd_context = "\n".join([f"- {chunk[:200]}" for chunk in jd_chunks[:3]])
     else:
-        jd_context = jd_json
+        jd_context = jd_json[:800]
     
-    prompt = f"""
-You are an ATS scoring agent.
-
-Use these weights:
+    prompt = f"""ATS scoring. Use these weights:
 - Skills match (40%)
 - Experience (30%)
 - Domain relevance (20%)
 - Penalties (10%)
 
-Overall embedding similarity: {similarity_score}/100
+Embedding similarity: {similarity_score}/100
 
-STRUCTURED CV DATA:
-{cv_json}
+CV DATA:
+{cv_json[:600]}
 
-RELEVANT CV EXCERPTS (filtered by RAG):
+TOP CV EXCERPTS:
 {cv_context}
 
 JOB REQUIREMENTS:
 {jd_context}
 
-Analyze ONLY the relevant excerpts above. Score the match (0-100).
-
 Return JSON only:
 {{
-  "final_score": number,
-  "strengths": [],
-  "gaps": [],
-  "recommendation": "reject | maybe | shortlist"
+  "final_score": <0-100>,
+  "strengths": [<max 3 items>],
+  "gaps": [<max 3 items>],
+  "recommendation": "reject|maybe|shortlist"
 }}
 """
 
@@ -115,7 +107,10 @@ Return JSON only:
         model="llama3.1:8b",
         messages=[{"role": "user", "content": prompt}],
         format="json",
-        options={"num_predict": 500}
+        options={
+            "num_predict": 400,
+            "temperature": 0.2
+        }
     )
 
     return res["message"]["content"]

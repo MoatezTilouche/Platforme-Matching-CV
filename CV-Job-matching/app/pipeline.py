@@ -18,6 +18,9 @@ _cache = CVCache()
 # Global RAG embedder
 _rag_embedder = get_rag_embedder()
 
+# Global JD embedding cache (reused across CVs)
+_jd_embedding_cache = {}
+
 def run_pipeline(cv_path, jd_text):
     """
     Optimized pipeline with:
@@ -158,10 +161,20 @@ def run_pipeline_rag(cv_path, jd_text, top_k=5):
         # Chunk and embed CV (will be cached)
         cv_data = _rag_embedder.embed_cv(cv_clean)
     
-    # 3. Retrieve relevant CV chunks for this JD
-    relevant_chunks, chunk_scores, jd_embedding = _rag_embedder.retrieve_for_jd(
+    # 3. Get or compute JD embedding (cached globally across all CVs)
+    import hashlib
+    jd_hash = hashlib.sha256(jd_clean.encode()).hexdigest()
+    
+    if jd_hash not in _jd_embedding_cache:
+        from app.utils.rag import embed_text
+        _jd_embedding_cache[jd_hash] = embed_text(jd_clean)
+    
+    jd_embedding = _jd_embedding_cache[jd_hash]
+    
+    # Retrieve relevant CV chunks using cached JD embedding
+    relevant_chunks, chunk_scores = _rag_embedder.retrieve_for_jd_with_embedding(
         cv_data,
-        jd_clean,
+        jd_embedding,
         top_k=top_k
     )
     

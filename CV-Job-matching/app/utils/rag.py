@@ -8,6 +8,20 @@ import ollama
 import numpy as np
 import re
 from typing import List, Tuple, Dict
+from sentence_transformers import SentenceTransformer
+import torch
+
+# Global GPU-accelerated embedding model
+_embedding_model = None
+
+def get_embedding_model():
+    """Get or create GPU-accelerated embedding model."""
+    global _embedding_model
+    if _embedding_model is None:
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        _embedding_model = SentenceTransformer('all-MiniLM-L6-v2', device=device)
+        print(f"🚀 Embedding model loaded on: {device.upper()}")
+    return _embedding_model
 
 
 def chunk_cv(text: str, max_chars: int = 500) -> List[str]:
@@ -122,43 +136,35 @@ def chunk_jd(text: str, max_chars: int = 500) -> List[str]:
 
 def embed_chunks(chunks: List[str], model: str = "nomic-embed-text") -> List[np.ndarray]:
     """
-    Embed multiple chunks using Ollama.
+    Embed multiple chunks using GPU-accelerated sentence-transformers.
+    10x faster than Ollama sequential calls.
     
     Args:
         chunks: List of text chunks
-        model: Embedding model to use
+        model: Embedding model to use (ignored, using sentence-transformers)
         
     Returns:
         List of embedding vectors
     """
-    embeddings = []
-    
-    for chunk in chunks:
-        response = ollama.embeddings(
-            model=model,
-            prompt=chunk
-        )
-        embeddings.append(np.array(response["embedding"]))
-    
-    return embeddings
+    embedding_model = get_embedding_model()
+    # Batch encode all chunks at once (GPU accelerated)
+    embeddings = embedding_model.encode(chunks, convert_to_numpy=True, show_progress_bar=False)
+    return [emb for emb in embeddings]
 
 
 def embed_text(text: str, model: str = "nomic-embed-text") -> np.ndarray:
     """
-    Embed a single text using Ollama.
+    Embed a single text using GPU-accelerated sentence-transformers.
     
     Args:
         text: Text to embed
-        model: Embedding model to use
+        model: Embedding model to use (ignored, using sentence-transformers)
         
     Returns:
         Embedding vector
     """
-    response = ollama.embeddings(
-        model=model,
-        prompt=text
-    )
-    return np.array(response["embedding"])
+    embedding_model = get_embedding_model()
+    return embedding_model.encode(text, convert_to_numpy=True, show_progress_bar=False)
 
 
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:

@@ -1,164 +1,138 @@
 [
   {
-    "filename": "cv_oussama.pdf",
-    "score": 88,
-    "recommendation": "shortlist",
-    "strengths": [
-      "Relevant experience in building high-performance web and mobile applications with Flutter and NestJS",
-      "Strong backend skills, including expertise in Node.js/Typescript and Python (FastAPI)",
-      "Familiarity with modern frontend libraries such as React"
-    ],
-    "gaps": [
-      "Limited experience with AWS, serverless technologies, or cloud-native development"
-    ],
-    "processing_time": 136.94397401809692,
-    "full_result": {
-      "final_score": 88,
-      "strengths": [
-        "Relevant experience in building high-performance web and mobile applications with Flutter and NestJS",
-        "Strong backend skills, including expertise in Node.js/Typescript and Python (FastAPI)",
-        "Familiarity with modern frontend libraries such as React"
-      ],
-      "gaps": [
-        "Limited experience with AWS, serverless technologies, or cloud-native development"
-      ],
-      "recommendation": "shortlist"
-    }
-  },
-  {
-    "filename": "cv_moatez_tilouch.pdf",
-    "score": 84,
-    "recommendation": "shortlist",
-    "strengths": [
-      "Deep experience in full-stack development with relevant skills such as Angular, Flutter, NestJS, Spring Boot, HTML/CSS, ReactJS, NextJS, SQL/NoSQL.",
-      "Strong backend and frontend development skills as per the job requirements."
-    ],
-    "gaps": [],
-    "processing_time": 114.30787396430969,
-    "full_result": {
-      "final_score": 84,
-      "strengths": [
-        "Deep experience in full-stack development with relevant skills such as Angular, Flutter, NestJS, Spring Boot, HTML/CSS, ReactJS, NextJS, SQL/NoSQL.",
-        "Strong backend and frontend development skills as per the job requirements."
-      ],
-      "gaps": [],
-      "recommendation": "shortlist"
-    }
-  },
-  {
-    "filename": "cv_yassine.pdf",
-    "score": 82,
+    "filename": "good_match_cv.pdf",
+    "score": 68,
     "recommendation": "maybe",
     "strengths": [
-      "Relevant experience with backend and frontend development",
-      "Technical skills match, including Node.js/TypeScript, Python (FastAPI), React, AWS, and cloud-native development",
-      "Experience with automation workflows, event-driven architecture, and microservices"
+      "Strong frontend skills",
+      "Solid backend experience"
     ],
     "gaps": [
-      "Limited direct experience with the specific requirements of base360.ai platform",
-      "No clear evidence of working on large-scale operational systems or real-time automations"
+      "Lack of automation platform experience",
+      "Limited seniority (mid-level)"
     ],
-    "processing_time": 293.87372636795044,
+    "processing_time": 80.10361552238464,
     "full_result": {
-      "final_score": 82,
+      "final_score": 68,
       "strengths": [
-        "Relevant experience with backend and frontend development",
-        "Technical skills match, including Node.js/TypeScript, Python (FastAPI), React, AWS, and cloud-native development",
-        "Experience with automation workflows, event-driven architecture, and microservices"
+        "Strong frontend skills",
+        "Solid backend experience"
       ],
       "gaps": [
-        "Limited direct experience with the specific requirements of base360.ai platform",
-        "No clear evidence of working on large-scale operational systems or real-time automations"
+        "Lack of automation platform experience",
+        "Limited seniority (mid-level)"
       ],
       "recommendation": "maybe"
     }
   },
   {
-    "filename": "good_match_cv.pdf",
-    "score": 82,
-    "recommendation": "shortlist",
+    "filename": "cv_ahmed.pdf",
+    "score": 43.44,
+    "recommendation": "maybe",
     "strengths": [
-      {
-        "category": "Skills match",
-        "score": 90
-      },
-      {
-        "category": "Domain relevance",
-        "score": 80
-      }
+      "Relevant coursework in Web Development, Mobile Development, and Data Structures",
+      "Recent graduate with a Diploma in Software Engineering from the Higher Institute of Computer Sciences and Mathematics of Monastir"
     ],
-    "gaps": [],
-    "processing_time": 124.71569848060608,
+    "gaps": [
+      "Limited years of experience (0 years)",
+      "No direct mention of automation platform or intelligent automation engine skills"
+    ],
+    "processing_time": 207.39381408691406,
     "full_result": {
-      "final_score": 82,
+      "final_score": 43.44,
       "strengths": [
-        {
-          "category": "Skills match",
-          "score": 90
-        },
-        {
-          "category": "Domain relevance",
-          "score": 80
-        }
+        "Relevant coursework in Web Development, Mobile Development, and Data Structures",
+        "Recent graduate with a Diploma in Software Engineering from the Higher Institute of Computer Sciences and Mathematics of Monastir"
       ],
-      "gaps": [],
-      "recommendation": "shortlist"
+      "gaps": [
+        "Limited years of experience (0 years)",
+        "No direct mention of automation platform or intelligent automation engine skills"
+      ],
+      "recommendation": "maybe"
     }
   },
   {
-    "filename": "cv_ahmed.pdf",
-    "score": 81.3,
+    "filename": "cv_oussama.pdf",
+    "score": 43.28,
     "recommendation": "maybe",
     "strengths": [
-      {
-        "category": "Skills match",
-        "sub_category": "Backend development",
-        "score": 80
-      },
-      {
-        "category": "Experience",
-        "sub_category": "Front-end engineering and development",
-        "score": 85
-      }
+      "Flutter",
+      "NestJS",
+      "Full-stack development"
     ],
     "gaps": [
-      {
-        "category": "Domain relevance",
-        "sub_category": "Automation, system design, and simplifying complexity",
-        "score": 60
-      },
-      {
-        "category": "Skills match",
-        "sub_category": "Node.js / Typescript or similar backend frameworks",
-        "score": 50
-      }
+      "Clean architecture",
+      "Modern design principles",
+      "Web application development"
     ],
-    "processing_time": 146.80484914779663,
+    "processing_time": 82.2521722316742,
     "full_result": {
-      "final_score": 81.3,
+      "final_score": 43.28,
       "strengths": [
-        {
-          "category": "Skills match",
-          "sub_category": "Backend development",
-          "score": 80
-        },
-        {
-          "category": "Experience",
-          "sub_category": "Front-end engineering and development",
-          "score": 85
-        }
+        "Flutter",
+        "NestJS",
+        "Full-stack development"
       ],
       "gaps": [
-        {
-          "category": "Domain relevance",
-          "sub_category": "Automation, system design, and simplifying complexity",
-          "score": 60
-        },
-        {
-          "category": "Skills match",
-          "sub_category": "Node.js / Typescript or similar backend frameworks",
-          "score": 50
-        }
+        "Clean architecture",
+        "Modern design principles",
+        "Web application development"
+      ],
+      "recommendation": "maybe"
+    }
+  },
+  {
+    "filename": "cv_moatez_tilouch.pdf",
+    "score": 43.2,
+    "recommendation": "maybe",
+    "strengths": [
+      "Experience in full-stack development using Angular, Flutter, NestJS, and SpringBoot",
+      "Relevant domain experience in software engineering"
+    ],
+    "gaps": [
+      "Limited years of experience (0 years)",
+      "No specific mention of automation platform or intelligent automation engine experience"
+    ],
+    "processing_time": 86.02863478660583,
+    "full_result": {
+      "final_score": 43.2,
+      "strengths": [
+        "Experience in full-stack development using Angular, Flutter, NestJS, and SpringBoot",
+        "Relevant domain experience in software engineering"
+      ],
+      "gaps": [
+        "Limited years of experience (0 years)",
+        "No specific mention of automation platform or intelligent automation engine experience"
+      ],
+      "recommendation": "maybe"
+    }
+  },
+  {
+    "filename": "cv_yassine.pdf",
+    "score": 43.16,
+    "recommendation": "maybe",
+    "strengths": [
+      "Experience: 4 years of experience in software development",
+      "Skills match: Embedding similarity of 15.399999618530273/100 indicates a good match for the job requirements",
+      "Domain relevance: Relevant skills such as Next.js, React/Next.js, and Frontend Development"
+    ],
+    "gaps": [
+      "Lack of experience in automation platforms and intelligent automation engines",
+      "Limited exposure to backend development and Spring Boot",
+      "No mention of relevant tools or technologies such as Selenium"
+    ],
+    "processing_time": 115.6695339679718,
+    "full_result": {
+      "final_score": 43.16,
+      "strengths": [
+        "Experience: 4 years of experience in software development",
+        "Skills match: Embedding similarity of 15.399999618530273/100 indicates a good match for the job requirements",
+        "Domain relevance: Relevant skills such as Next.js, React/Next.js, and Frontend Development"
+      ],
+      "gaps": [
+        "Lack of experience in automation platforms and intelligent automation engines",
+        "Limited exposure to backend development and Spring Boot",
+        "No mention of relevant tools or technologies such as Selenium"
       ],
       "recommendation": "maybe"
     }
