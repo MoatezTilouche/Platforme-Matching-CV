@@ -7,17 +7,31 @@ Handles chunk-based embedding and storage for efficient retrieval.
 import hashlib
 import numpy as np
 from typing import List, Dict, Tuple, Optional
-from app.utils.rag import chunk_cv, embed_chunks, embed_text
+from sentence_transformers import SentenceTransformer
+import torch
+from app.utils.rag import chunk_cv
 
 
 class RAGEmbedder:
     """
     Manages chunk-based embeddings for CVs with caching support.
+    Uses SentenceTransformers for fast GPU-accelerated embeddings.
     """
     
-    def __init__(self):
-        """Initialize the RAG embedder with in-memory cache."""
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
+        """
+        Initialize the RAG embedder with in-memory cache.
+        
+        Args:
+            model_name: Transformer model for embeddings
+                - "all-MiniLM-L6-v2" (90MB, FAST, recommended)
+                - "all-mpnet-base-v2" (420MB, best quality)
+        """
         self._cache: Dict[str, Dict] = {}
+        self.model_name = model_name
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.model = SentenceTransformer(model_name, device=self.device)
+        print(f"🚀 RAG Embedder loaded: {model_name} on {self.device.upper()}")
     
     def get_cv_hash(self, cv_text: str) -> str:
         """
@@ -37,7 +51,7 @@ class RAGEmbedder:
         force_recompute: bool = False
     ) -> Dict:
         """
-        Chunk and embed a CV, with caching.
+        Chunk and embed a CV using FAST SentenceTransformers, with caching.
         
         Args:
             cv_text: Clean CV text
@@ -55,8 +69,14 @@ class RAGEmbedder:
         # Chunk the CV
         chunks = chunk_cv(cv_text)
         
-        # Embed chunks
-        embeddings = embed_chunks(chunks)
+        # Embed chunks using SentenceTransformers (GPU-accelerated, batch processing)
+        embeddings = self.model.encode(
+            chunks, 
+            convert_to_numpy=True, 
+            show_progress_bar=False,
+            batch_size=32  # Process in batches for speed
+        )
+        embeddings = [emb for emb in embeddings]  # Convert to list
         
         # Store in cache
         result = {
@@ -103,8 +123,12 @@ class RAGEmbedder:
         """
         from app.utils.rag import retrieve_relevant_chunks
         
-        # Embed JD
-        jd_embedding = embed_text(jd_text)
+        # Embed JD using SentenceTransformers
+        jd_embedding = self.model.encode(
+            jd_text, 
+            convert_to_numpy=True, 
+            show_progress_bar=False
+        )
         
         # Retrieve relevant chunks
         relevant_chunks, scores = retrieve_relevant_chunks(

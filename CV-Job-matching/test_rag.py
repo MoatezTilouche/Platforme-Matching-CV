@@ -5,6 +5,7 @@ Test script to compare RAG vs non-RAG pipeline performance.
 
 import time
 import json
+import asyncio
 from app.pipeline import run_pipeline, run_pipeline_rag
 
 def test_rag_performance(cv_path, jd_text):
@@ -18,7 +19,7 @@ def test_rag_performance(cv_path, jd_text):
     # Test 1: Original pipeline (full documents)
     print("\n[1] Running ORIGINAL pipeline (full CV/JD)...")
     start = time.time()
-    result_original = run_pipeline(cv_path, jd_text)
+    result_original = asyncio.run(run_pipeline(cv_path, jd_text))
     time_original = time.time() - start
     
     print(f"✓ Completed in {time_original:.2f}s")
@@ -27,7 +28,7 @@ def test_rag_performance(cv_path, jd_text):
     # Test 2: RAG pipeline (chunked + retrieved)
     print("\n[2] Running RAG pipeline (chunked + retrieval)...")
     start = time.time()
-    result_rag = run_pipeline_rag(cv_path, jd_text, top_k=5)
+    result_rag = asyncio.run(run_pipeline_rag(cv_path, jd_text, top_k=5))
     time_rag = time.time() - start
     
     print(f"✓ Completed in {time_rag:.2f}s")
@@ -36,7 +37,7 @@ def test_rag_performance(cv_path, jd_text):
     # Test 3: RAG pipeline second run (with cache)
     print("\n[3] Running RAG pipeline AGAIN (cached embeddings)...")
     start = time.time()
-    result_rag_cached = run_pipeline_rag(cv_path, jd_text, top_k=5)
+    result_rag_cached = asyncio.run(run_pipeline_rag(cv_path, jd_text, top_k=5))
     time_rag_cached = time.time() - start
     
     print(f"✓ Completed in {time_rag_cached:.2f}s")

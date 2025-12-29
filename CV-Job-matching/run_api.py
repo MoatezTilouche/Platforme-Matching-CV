@@ -21,9 +21,7 @@ def check_ollama():
         models_output = result.stdout
         
         required_models = {
-            "qwen2.5:7b": False,
-            "llama3.1:8b": False,
-            "nomic-embed-text": False
+            "mistral:7b-instruct": False
         }
         
         for model in required_models:

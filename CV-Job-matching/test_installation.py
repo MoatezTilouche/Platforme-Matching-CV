@@ -76,11 +76,9 @@ STEP 3: Test Embedder
 embedder = get_rag_embedder()
 print("✓ RAG embedder initialized")
 
-# This would normally embed, but requires Ollama running
-print("⚠ Skipping actual embedding (requires Ollama)")
-print("  To test embedding, ensure Ollama is running:")
-print("    ollama pull nomic-embed-text")
-print("    ollama serve")
+# This would normally embed, but uses SentenceTransformers (no Ollama required)
+print("✓ Embedding uses SentenceTransformers (GPU accelerated)")
+print("  No Ollama required for embeddings")
 
 print("""
 STEP 4: Check File Structure
@@ -116,9 +114,7 @@ To fully test RAG with real data:
    $ ollama serve
    
 2. Pull required models:
-   $ ollama pull nomic-embed-text
-   $ ollama pull llama3.1:8b
-   $ ollama pull qwen2.5:7b
+   $ ollama pull mistral:7b-instruct
 
 3. Run performance test:
    $ python test_rag.py

@@ -1,27 +1,29 @@
 # app/agents/jd_parser.py
-import ollama
+from ollama import AsyncClient
 
 
-def parse_jd(jd_text: str):
-    prompt = f"""Extract job requirements. Return JSON only.
+async def parse_jd(jd_text: str):
+    prompt = f"""Extract requirements as JSON:
 
-Fields:
-- required_skills: list
-- nice_to_have: list
-- min_years_experience: number
-- domain: list
-- seniority: junior|mid|senior|lead
+{{
+  "required_skills": [],
+  "nice_to_have": [],
+  "min_years_experience": 3,
+  "domain": [],
+  "seniority": "mid"
+}}
 
 JD:
-{jd_text[:2000]}
+{jd_text[:1500]}
 """
 
-    res = ollama.chat(
-        model="qwen2.5:7b",
+    client = AsyncClient()
+    res = await client.chat(
+        model="mistral:7b-instruct",
         messages=[{"role": "user", "content": prompt}],
         format="json",
         options={
-            "num_predict": 300,
+            "num_predict": 150,
             "temperature": 0.1
         }
     )

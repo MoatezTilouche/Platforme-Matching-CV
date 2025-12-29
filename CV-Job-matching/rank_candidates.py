@@ -2,6 +2,7 @@
 import json
 import os
 import time
+import asyncio
 from pathlib import Path
 from app.pipeline import run_pipeline_rag
 
@@ -115,7 +116,7 @@ def main():
         try:
             # Run the RAG-optimized pipeline
             start_time = time.time()
-            result = run_pipeline_rag(str(cv_path), JOB_DESCRIPTION, top_k=5)
+            result = asyncio.run(run_pipeline_rag(str(cv_path), JOB_DESCRIPTION, top_k=5))
             elapsed = time.time() - start_time
             
             # Parse the result

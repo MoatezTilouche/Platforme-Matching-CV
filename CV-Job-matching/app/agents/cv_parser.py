@@ -1,26 +1,28 @@
 # app/agents/cv_parser.py
-import ollama
+from ollama import AsyncClient
 
-def parse_cv(cv_text: str):
-    prompt = f"""Extract structured info from CV. Return JSON only.
+async def parse_cv(cv_text: str):
+    prompt = f"""Extract from CV as JSON:
 
-Fields:
-- skills: list of technical skills
-- years_experience: number
-- job_titles: list of recent titles
-- domains: list of industries/domains
-- seniority: junior|mid|senior|lead
+{{
+  "skills": ["skill1", "skill2"],
+  "years_experience": 5,
+  "job_titles": ["title1"],
+  "domains": ["domain1"],
+  "seniority": "mid"
+}}
 
 CV:
-{cv_text[:2000]}
+{cv_text[:1500]}
 """
 
-    res = ollama.chat(
-        model="qwen2.5:7b",
+    client = AsyncClient()
+    res = await client.chat(
+        model="mistral:7b-instruct",
         messages=[{"role": "user", "content": prompt}],
         format="json",
         options={
-            "num_predict": 300,
+            "num_predict": 200,
             "temperature": 0.1
         }
     )

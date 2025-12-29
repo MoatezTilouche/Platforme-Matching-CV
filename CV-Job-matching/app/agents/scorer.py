@@ -1,8 +1,8 @@
 # app/agents/scorer.py
-import ollama
+from ollama import AsyncClient
 from typing import List, Optional
 
-def score_cv(cv_json, jd_json, similarity_score):
+async def score_cv(cv_json, jd_json, similarity_score):
     """
     Legacy scorer using full CV/JD (not recommended).
     Use score_cv_rag() for better performance.
@@ -33,8 +33,9 @@ Return JSON:
 }}
 """
 
-    res = ollama.chat(
-        model="llama3.1:8b",
+    client = AsyncClient()
+    res = await client.chat(
+        model="mistral:7b-instruct",
         messages=[{"role": "user", "content": prompt}],
         format="json",
         options={"num_predict": 500}
@@ -43,7 +44,7 @@ Return JSON:
     return res["message"]["content"]
 
 
-def score_cv_rag(
+async def score_cv_rag(
     cv_json: str,
     jd_json: str,
     relevant_cv_chunks: List[str],
@@ -77,38 +78,33 @@ def score_cv_rag(
     else:
         jd_context = jd_json[:800]
     
-    prompt = f"""ATS scoring. Use these weights:
-- Skills match (40%)
-- Experience (30%)
-- Domain relevance (20%)
-- Penalties (10%)
+    prompt = f"""Score candidate (0-100). Weights: Skills 40%, Experience 30%, Domain 20%, Other 10%.
 
-Embedding similarity: {similarity_score}/100
+Embedding: {similarity_score}/100
 
-CV DATA:
-{cv_json[:600]}
+CV: {cv_json[:400]}
 
-TOP CV EXCERPTS:
+Top CV Sections:
 {cv_context}
 
-JOB REQUIREMENTS:
-{jd_context}
+Job: {jd_context}
 
-Return JSON only:
+JSON:
 {{
-  "final_score": <0-100>,
-  "strengths": [<max 3 items>],
-  "gaps": [<max 3 items>],
-  "recommendation": "reject|maybe|shortlist"
+  "final_score": 75,
+  "strengths": ["item1", "item2"],
+  "gaps": ["item1"],
+  "recommendation": "shortlist"
 }}
 """
 
-    res = ollama.chat(
-        model="llama3.1:8b",
+    client = AsyncClient()
+    res = await client.chat(
+        model="mistral:7b-instruct",
         messages=[{"role": "user", "content": prompt}],
         format="json",
         options={
-            "num_predict": 400,
+            "num_predict": 250,
             "temperature": 0.2
         }
     )

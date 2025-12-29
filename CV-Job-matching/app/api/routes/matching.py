@@ -49,10 +49,10 @@ async def match_single_cv(
         
         if use_rag:
             # RAG pipeline (recommended)
-            result = run_pipeline_rag(tmp_path, job_description, top_k=5)
+            result = await run_pipeline_rag(tmp_path, job_description, top_k=5)
         else:
             # Legacy pipeline
-            result = run_pipeline(tmp_path, job_description)
+            result = await run_pipeline(tmp_path, job_description)
         
         processing_time = time.time() - start_time
         
@@ -119,10 +119,10 @@ async def rank_multiple_cvs(
             
             if use_rag:
                 # RAG pipeline (recommended for bulk)
-                result = run_pipeline_rag(tmp_path, job_description, top_k=5)
+                result = await run_pipeline_rag(tmp_path, job_description, top_k=5)
             else:
                 # Legacy pipeline
-                result = run_pipeline(tmp_path, job_description)
+                result = await run_pipeline(tmp_path, job_description)
             
             processing_time = time.time() - start_time
             
@@ -138,6 +138,16 @@ async def rank_multiple_cvs(
                 processing_time=round(processing_time, 2)
             ))
             
+        except json.JSONDecodeError as e:
+            # JSON parsing error
+            results.append(RankingResult(
+                filename=file.filename,
+                score=0,
+                recommendation='error',
+                strengths=[],
+                gaps=[f"JSON parse error: {str(e)[:100]}"],
+                processing_time=round(time.time() - start_time, 2) if 'start_time' in locals() else 0
+            ))
         except Exception as e:
             # Add error result
             results.append(RankingResult(
@@ -145,7 +155,7 @@ async def rank_multiple_cvs(
                 score=0,
                 recommendation='error',
                 strengths=[],
-                gaps=[{'error': str(e)}],
+                gaps=[f"{type(e).__name__}: {str(e)[:100]}"],
                 processing_time=0
             ))
         
