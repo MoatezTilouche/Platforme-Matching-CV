@@ -649,28 +649,6 @@ rm -rf CV-Job-matching/.cache
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **Ollama**: For providing local LLM inference
-- **FastAPI**: For the excellent web framework
-- **React**: For the powerful frontend library
-- **TailwindCSS**: For beautiful styling utilities
-
----
-
-## 📞 Support
-
-For issues, questions, or suggestions:
-
-- Create an issue in the repository
-- Check existing documentation in `/CV-Job-matching/`
-- Review API docs at http://localhost:8000/docs
 
 ---
 
